@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *file;
+    char filename[100];
+    char line[256];
+
+    // Ask the user for the filename
+    printf("Enter the filename to create and write to: ");
+    fgets(filename, sizeof(filename), stdin);
+    filename[strcspn(filename, "\n")] = '\0';  // Remove the newline character
+
+    // Open the file for writing and creating it if it doesn't exist
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error opening file %s for writing.\n", filename);
+        return 1;
+    }
+
+    // Ask the user to enter multiple lines of text
+    printf("Enter lines of text (blank line to stop writing):\n");
+
+    // Read lines of text until a blank line is entered
+    while (1) {
+        fgets(line, sizeof(line), stdin);
+
+        // If the line is blank, stop writing to the file
+        if (line[0] == '\n') {
+            break;
+        }
+
+        // Write the entered line to the file
+        fputs(line, file);
+    }
+
+    // Close the file
+    fclose(file);
+
+    printf("Text has been written to the file %s successfully.\n", filename);
+    return 0;
+}
