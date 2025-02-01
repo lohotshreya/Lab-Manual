@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int main() {
+    int n, i;
+    
+    // Take input for the number of elements from user
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    
+    int arr[n];
+    
+    // Take input from user for the elements of the array
+    printf("Enter %d integers:\n", n);
+    for(i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int largest = arr[0];
+    int smallest = arr[0];
+
+    // Iterate through the array to find the largest and smallest numbers
+    for(i = 1; i < n; i++) {
+        if(arr[i] > largest) {
+            largest = arr[i];
+        }
+        if(arr[i] < smallest) {
+            smallest = arr[i];
+        }
+    }
+
+    // Print the results
+    printf("Largest number: %d\n", largest);
+    printf("Smallest number: %d\n", smallest);
+
+    return 0;
+}
