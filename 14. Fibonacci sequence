@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    int n, first = 0, second = 1, next, i;
+
+    // Prompt the user to enter a positive integer
+    printf("Enter the number of terms for the Fibonacci sequence: ");
+    scanf("%d", &n);
+
+    // Validate input
+    if (n <= 0) {
+        printf("Please enter a positive integer.\n");
+        return 1;
+    }
+
+    // Print Fibonacci sequence
+    printf("Fibonacci Sequence: ");
+
+    for (i = 0; i < n; i++) {
+        printf("%d ", first);
+        next = first + second;
+        first = second;
+        second = next;
+    }
+
+    printf("\n");
+    return 0;
+}
