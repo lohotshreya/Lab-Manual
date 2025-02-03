@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+// Defining a structure to hold student details
+struct Student {
+    char name[50];
+    int age;
+    float marks;
+};
+
+// Function to input student details, returning 1 for success
+int inputStudentDetails(struct Student *student) {
+    printf("Enter student name: ");
+    getchar();  // To consume newline character from previous input
+    fgets(student->name, sizeof(student->name), stdin);
+    student->name[strcspn(student->name, "\n")] = '\0';  // Remove newline character
+
+    printf("Enter age: ");
+    scanf("%d", &student->age);
+
+    printf("Enter marks: ");
+    scanf("%f", &student->marks);
+
+    return 1;  // Success
+}
+
+// Function to display student details, returning 1 for success
+int displayStudentDetails(struct Student student) {
+    printf("\nName: %s\n", student.name);
+    printf("Age: %d\n", student.age);
+    printf("Marks: %.2f\n", student.marks);
+
+    return 1;  // Success
+}
+
+int main() {
+    int n;
+
+    // Ask the user for the number of records
+    printf("Enter the number of students: ");
+    scanf("%d", &n);
+
+    // Declare an array of structures to hold the student records
+    struct Student students[n];
+
+    // Input details for each student
+    for (int i = 0; i < n; i++) {
+        printf("\nEnter details for student %d:\n", i + 1);
+        inputStudentDetails(&students[i]);
+    }
+
+    // Display all student details
+    printf("\n--- Student Records ---\n");
+    for (int i = 0; i < n; i++) {
+        printf("\nStudent %d details:\n", i + 1);
+        displayStudentDetails(students[i]);
+    }
+
+    return 0;
+}
