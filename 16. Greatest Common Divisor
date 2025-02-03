@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+// Function to find GCD by checking all possible divisors
+int findGCD(int a, int b) {
+    int gcd = 1; // Initialize GCD as 1 (minimum possible GCD)
+
+    // Find the smaller number
+    int min = (a < b) ? a : b;
+
+    // Check divisibility from 1 to min
+    for (int i = 1; i <= min; i++) {
+        if (a % i == 0 && b % i == 0) {
+            gcd = i; // Update GCD if i is a common divisor
+        }
+    }
+
+    return gcd;
+}
+
+int main() {
+    int num1, num2;
+
+    // Input two numbers
+    printf("Enter two integers: ");
+    scanf("%d %d", &num1, &num2);
+
+    // Ensure positive inputs
+    if (num1 < 0) num1 = -num1;
+    if (num2 < 0) num2 = -num2;
+
+    // Calculate and display GCD
+    printf("GCD of %d and %d is: %d\n", num1, num2, findGCD(num1, num2));
+
+    return 0;
+}
