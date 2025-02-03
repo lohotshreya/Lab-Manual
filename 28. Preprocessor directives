@@ -1,0 +1,35 @@
+#include <stdio.h>  // Includes the standard input/output library
+
+// Define a macro
+#define PI 3.14159
+
+// Conditionally define a macro
+#ifdef PI
+    #define AREA_OF_CIRCLE(radius) (PI * (radius) * (radius))  // Calculate area of circle
+#endif
+
+// Check if a macro is defined or not
+#ifndef EULER
+    #define EULER 2.71828  // Define Euler's number if not already defined
+#endif
+
+int main() {
+    // Use the defined macros
+    printf("Value of PI: %.5f\n", PI);  // Output the value of PI
+
+    // Using the AREA_OF_CIRCLE macro with a radius of 5
+    double radius = 5.0;
+    printf("Area of circle with radius %.2f: %.2f\n", radius, AREA_OF_CIRCLE(radius));
+
+    // Use the EULER macro
+    printf("Value of Euler's number: %.5f\n", EULER);
+
+    // Undefine the PI macro
+    #undef PI
+
+    // Try to use PI after it's undefined (This will cause an error)
+    // Uncommenting the following line will give a compilation error:
+    // printf("Value of PI after #undef: %.5f\n", PI);
+
+    return 0;
+}
