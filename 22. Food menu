@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_ITEMS 5
+
+// Structure to hold food item details
+typedef struct {
+    char name[30];
+    float price;
+    int quantity;
+} FoodItem;
+
+// Function to display the food menu
+int displayMenu(FoodItem menu[MAX_ITEMS]) {
+    printf("\n---- Food Menu ----\n");
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        printf("%d. %s - Rs %.2f\n", i + 1, menu[i].name, menu[i].price);
+    }
+    printf("--------------------\n");
+    return 1; // Success
+}
+
+// Function to calculate the total bill
+int calculateTotal(FoodItem menu[MAX_ITEMS], float *total) {
+    *total = 0;
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        *total += menu[i].price * menu[i].quantity;
+    }
+    return 1; // Success
+}
+
+// Function to place or modify an order
+int placeOrModifyOrder(FoodItem menu[MAX_ITEMS]) {
+    int choice, quantity;
+    
+    while (1) {
+        displayMenu(menu);
+        printf("\nEnter the item number to order or modify (0 to exit): ");
+        scanf("%d", &choice);
+        
+        if (choice == 0) {
+            break;
+        }
+        
+        if (choice > 0 && choice <= MAX_ITEMS) {
+            printf("Enter quantity for %s: ", menu[choice - 1].name);
+            scanf("%d", &quantity);
+            menu[choice - 1].quantity = quantity;
+            printf("%s order updated with quantity %d.\n", menu[choice - 1].name, quantity);
+        } else {
+            printf("Invalid choice, please try again.\n");
+        }
+    }
+    return 1; // Success
+}
+
+// Function to view the current order and total bill
+int viewOrder(FoodItem menu[MAX_ITEMS]) {
+    float total = 0;
+    calculateTotal(menu, &total);
+    
+    printf("\n---- Your Order ----\n");
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        if (menu[i].quantity > 0) {
+            printf("%s - Rs %.2f x %d = Rs %.2f\n", menu[i].name, menu[i].price, menu[i].quantity, menu[i].price * menu[i].quantity);
+        }
+    }
+    printf("--------------------\n");
+    printf("Total Bill: Rs %.2f\n", total);
+    return 1; // Success
+}
+
+int main() {
+    // Initialize food menu with prices
+    FoodItem menu[MAX_ITEMS] = {
+        {"HamBurger", 100.0, 0},
+        {"Margarita Pizza", 250.0, 0},
+        {"White Sauce Pasta", 150.0, 0},
+        {"French fries", 50.0, 0},
+        {"Coke-Pepsi, 250 ml", 30.0, 0}
+    };
+    
+    int choice;
+    
+    while (1) {
+        printf("\n---- Food Ordering System ----\n");
+        printf("1. Place/Modify Order\n");
+        printf("2. View Order and Total Bill\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                placeOrModifyOrder(menu);
+                break;
+            case 2:
+                viewOrder(menu);
+                break;
+            case 3:
+                printf("Thank you for eating at Papa John's! Visit Again!\n");
+                return 0;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+    
+    return 0;
+}
