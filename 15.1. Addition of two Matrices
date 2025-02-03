@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+#define MAX 10  // Maximum matrix size, define is a preprocessor directive
+
+int inputMatrix(int matrix[MAX][MAX], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("Enter element at [%d][%d]: ", i, j); // Take input from user for matrix size
+            scanf("%d", &matrix[i][j]);
+            while(getchar() != '\n'); // Fix: Clear input buffer
+        }
+    }
+    return 1; //Return 1 means the function is executed successfully
+}
+
+int displayMatrix(int matrix[MAX][MAX], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    return 1; 
+}
+
+int addMatrices(int A[MAX][MAX], int B[MAX][MAX], int result[MAX][MAX], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = A[i][j] + B[i][j];
+        }
+    }
+    return 1; 
+}
+
+int main() {
+    int rows, cols;
+    int A[MAX][MAX], B[MAX][MAX], result[MAX][MAX];
+
+    printf("Enter number of rows and columns for matrices: ");
+    scanf("%d %d", &rows, &cols);
+
+    printf("Enter elements for first matrix:\n");
+    inputMatrix(A, rows, cols);
+
+    printf("Enter elements for second matrix:\n");
+    inputMatrix(B, rows, cols);
+
+    addMatrices(A, B, result, rows, cols);
+
+    printf("Result of matrix addition:\n");
+    displayMatrix(result, rows, cols);
+
+    return 0;
+}
