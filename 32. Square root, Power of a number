@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double num, result;
+
+    // Calculating square root, taking user input for positive number ONLY
+    printf("Enter a number to calculate its square root: ");
+    scanf("%lf", &num);
+
+    if (num < 0) {
+        printf("Cannot calculate the square root of a negative number.\n");
+    } else {
+        result = sqrt(num);  // sqrt function to calculate the square root
+        printf("Square root of %.2f is %.2f\n", num, result);
+    }
+
+    // Calculating power
+    double base, exponent;
+    printf("\nEnter a base number and exponent to calculate power (base exponent): ");
+    scanf("%lf %lf", &base, &exponent);
+
+    result = pow(base, exponent);  // pow function to calculate power
+    printf("%.2f raised to the power of %.2f is %.2f\n", base, exponent, result);
+
+    return 0;
+}
