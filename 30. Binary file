@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define FILE_NAME "students.dat"
+
+typedef struct {
+    int id;
+    char name[50];
+    float grade;
+} Student;
+
+// Function to write initial records to the file (overwrites existing data)
+void writeRecords() {
+    FILE *file = fopen(FILE_NAME, "wb"); // Open file in binary write mode
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    Student students[] = {
+        {101, "Alice Johnson", 88.5},
+        {102, "Bob Smith", 76.0},
+        {103, "Charlie Brown", 92.3}
+    };
+
+    fwrite(students, sizeof(Student), 3, file); // Write array of structures
+    fclose(file);
+
+    printf("Records written successfully.\n");
+}
+
+// Function to display all records from the binary file
+void displayRecords() {
+    FILE *file = fopen(FILE_NAME, "rb"); // Open file in binary read mode
+    if (file == NULL) {
+        printf("File not found!\n");
+        return;
+    }
+
+    Student student;
+    printf("\nStudent Records:\n");
+    printf("----------------------------\n");
+    while (fread(&student, sizeof(Student), 1, file)) { // Read one record at a time
+        printf("ID: %d\nName: %s\nGrade: %.2f\n", student.id, student.name, student.grade);
+        printf("----------------------------\n");
+    }
+    fclose(file);
+}
+
+// Function to append a new student record to the binary file
+void appendRecord() {
+    FILE *file = fopen(FILE_NAME, "ab"); // Open file in binary append mode
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    Student newStudent;
+    printf("Enter student ID: ");
+    scanf("%d", &newStudent.id);
+    printf("Enter student name: ");
+    getchar(); // To consume leftover newline
+    fgets(newStudent.name, sizeof(newStudent.name), stdin);
+    newStudent.name[strcspn(newStudent.name, "\n")] = 0; // Remove newline character
+    printf("Enter student grade: ");
+    scanf("%f", &newStudent.grade);
+
+    fwrite(&newStudent, sizeof(Student), 1, file); // Append new record
+    fclose(file);
+
+    printf("New record appended successfully.\n");
+}
+
+int main() {
+    int choice;
+
+    do {
+        printf("\nBinary File Operations Menu:\n");
+        printf("1. Write Initial Records\n");
+        printf("2. Display Records\n");
+        printf("3. Append a New Record\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                writeRecords();
+                break;
+            case 2:
+                displayRecords();
+                break;
+            case 3:
+                appendRecord();
+                break;
+            case 4:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while (choice != 4);
+
+    return 0;
+}
