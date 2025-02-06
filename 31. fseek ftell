@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define FILE_NAME "employees.dat"
+
+typedef struct {
+    int id;
+    char name[50];
+    float salary;
+} Employee;
+
+// Function to write initial records to the file (overwrites existing data)
+void writeRecords() {
+    FILE *file = fopen(FILE_NAME, "wb"); // Open in binary write mode
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    Employee employees[] = {
+        {1, "Alice Johnson", 50000.0},
+        {2, "Bob Smith", 60000.0},
+        {3, "Charlie Brown", 55000.0}
+    };
+
+    fwrite(employees, sizeof(Employee), 3, file); // Write array of structures
+    fclose(file);
+
+    printf("Employee records written successfully.\n");
+}
+
+// Function to display all employee records
+void displayRecords() {
+    FILE *file = fopen(FILE_NAME, "rb"); // Open in binary read mode
+    if (file == NULL) {
+        printf("File not found!\n");
+        return;
+    }
+
+    Employee emp;
+    printf("\nEmployee Records:\n");
+    printf("----------------------------\n");
+    while (fread(&emp, sizeof(Employee), 1, file)) { // Read one record at a time
+        printf("ID: %d\nName: %s\nSalary: %.2f\n", emp.id, emp.name, emp.salary);
+        printf("----------------------------\n");
+    }
+    fclose(file);
+}
+
+// Function to modify an employee's salary using fseek() and ftell()
+void updateSalary(int empID, float newSalary) {
+    FILE *file = fopen(FILE_NAME, "rb+"); // Open in read/write binary mode
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    Employee emp;
+    int found = 0;
+
+    while (fread(&emp, sizeof(Employee), 1, file)) { // Search for the employee
+        if (emp.id == empID) {
+            found = 1;
+            printf("\nOld Salary of %s: %.2f\n", emp.name, emp.salary);
+            
+            emp.salary = newSalary; // Update salary
+
+            // Move file pointer back to correct position
+            fseek(file, -sizeof(Employee), SEEK_CUR);
+            fwrite(&emp, sizeof(Employee), 1, file); // Overwrite updated record
+            printf("Salary updated successfully!\n");
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Employee ID %d not found.\n", empID);
+    }
