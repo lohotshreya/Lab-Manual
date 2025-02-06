@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 5 // Number of names
+#define MAX_LENGTH 50 // Maximum length of a name
+
+// Function to perform Bubble Sort on an array of strings
+void bubbleSort(char arr[MAX][MAX_LENGTH], int n) {
+    char temp[MAX_LENGTH];
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (strcmp(arr[j], arr[j + 1]) > 0) { // Compare strings
+                // Swap strings if they are out of order
+                strcpy(temp, arr[j]);
+                strcpy(arr[j], arr[j + 1]);
+                strcpy(arr[j + 1], temp);
+            }
+        }
+    }
+}
+
+// Function to print an array of names
+void printNames(char arr[MAX][MAX_LENGTH], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("%s\n", arr[i]);
+    }
+}
+
+int main() {
+    char names[MAX][MAX_LENGTH] = {
+        "Zara",
+        "Liam",
+        "Emma",
+        "Oliver",
+        "Ava"
+    };
+
+    printf("Unsorted names:\n");
+    printNames(names, MAX);
+
+    bubbleSort(names, MAX);
+
+    printf("\nSorted names in alphabetical order:\n");
+    printNames(names, MAX);
+
+    return 0;
+}
