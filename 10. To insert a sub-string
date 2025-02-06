@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <string.h>
+
+void insertSubstring(char *str, char *substr, int pos) {
+    int len = strlen(str);
+    if (pos < 0 || pos > len) {
+        printf("Invalid position.\n");
+        return;
+    }
+
+    for (int i = len; i >= pos; i--) {
+        str[i + strlen(substr)] = str[i];
+    }
+
+    for (int i = 0; i < strlen(substr); i++) {
+        str[pos + i] = substr[i];
+    }
+
+    printf("After insertion: %s\n", str);
+}
+
+void deleteCharacters(char *str, int pos, int n) {
+    int len = strlen(str);
+    if (pos < 0 || pos >= len || n <= 0 || pos + n > len) {
+        printf("Invalid parameters.\n");
+        return;
+    }
+
+    for (int i = pos; i < len - n; i++) {
+        str[i] = str[i + n];
+    }
+
+    str[len - n] = '\0'; 
+    printf("After deletion: %s\n", str);
+}
+
+int main() {
+    char str[100], substr[50];
+    int pos, n, choice;
+
+    printf("Enter string: ");
+    scanf("%s", str);
+
+    do {
+        printf("\n1. Insert\n2. Delete\n3. Exit\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter substring: "); 
+                scanf("%s", substr); 
+                printf("Enter position: "); 
+                scanf("%d", &pos);
+                insertSubstring(str, substr, pos); 
+                break;
+            case 2:
+                printf("Enter position: "); 
+                scanf("%d", &pos);
+                printf("Enter count: "); 
+                scanf("%d", &n);
+                deleteCharacters(str, pos, n);
+                break;
+            case 3:
+                return 0;
+            default: 
+                printf("Invalid choice.\n");
+        }
+    } while (1); 
+}
